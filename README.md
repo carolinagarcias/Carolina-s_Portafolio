@@ -6,4 +6,4 @@
 
 ## [Project 3: Business dataset with SQL](https://colab.research.google.com/drive/11y2ioNSs1kBYoUSA3de6hh5HFFDlPrvv?usp=sharing)
 
-##[Project 4: Stores analysis with python and tableau](https://colab.research.google.com/drive/1EAyGHSIt7Gg9gMkdzpKNaYzGcNz-vrf7#scrollTo=3n4G-p6uakn2)
+## [Project 4: Stores analysis with python and tableau](https://colab.research.google.com/drive/1EAyGHSIt7Gg9gMkdzpKNaYzGcNz-vrf7#scrollTo=3n4G-p6uakn2)
