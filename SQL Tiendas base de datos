@@ -1,0 +1,100 @@
+CREATE TABLE  Provincia  (
+ idProvincia  INT NOT NULL,
+   nombre  VARCHAR(45) NULL,
+  PRIMARY KEY ( idProvincia ));
+
+CREATE TABLE  Ciudad  (
+   nombre  VARCHAR(45) NULL,
+   provincia  INT NULL,
+   idCiudad  INT NOT NULL,
+  PRIMARY KEY ( idCiudad ),
+  CONSTRAINT  fk_ciudad_provincia 
+    FOREIGN KEY ( provincia )
+    REFERENCES  Provincia  ( idProvincia));
+
+CREATE TABLE   Local  (
+   idLocal  INT NOT NULL,
+   direccion  VARCHAR(45) NULL,
+   ciudad  INT NULL,
+  PRIMARY KEY ( idLocal ),
+  CONSTRAINT  fk_local_ciudad 
+    FOREIGN KEY ( ciudad )
+    REFERENCES  Ciudad  ( idCiudad));
+
+CREATE TABLE   Empleado (
+   idEmpleado  INT NOT NULL,
+   Nombre  VARCHAR(50) NOT NULL,
+   local  INT NOT NULL,
+   ventas_mensuales  FLOAT NULL,
+  PRIMARY KEY ( idEmpleado ),
+  CONSTRAINT  fk_empleado_local 
+    FOREIGN KEY ( local )
+    REFERENCES  local  ( idLocal));
+
+INSERT INTO  Provincia  ( idProvincia , nombre ) VALUES (1,'Buenos Aires');
+INSERT INTO  provincia  ( idProvincia , nombre ) VALUES (2,'Cordoba');
+INSERT INTO  provincia  ( idProvincia , nombre ) VALUES (3,'Mendoza');
+INSERT INTO  provincia  ( idProvincia , nombre ) VALUES (4,'Chaco');
+INSERT INTO  provincia  ( idProvincia , nombre ) VALUES (5,'Tucuman');
+
+INSERT INTO  Ciudad  ( nombre , provincia , idCiudad ) VALUES ('CABA',1,1);
+INSERT INTO  Ciudad  ( nombre , provincia , idCiudad ) VALUES ('Cordoba',2,2);
+INSERT INTO Local ( idLocal , direccion , ciudad ) VALUES (1,'Calle falsa 123',1);
+INSERT INTO Local ( idLocal , direccion , ciudad ) VALUES (2,'Calle falsa 456',2);
+INSERT INTO Local ( idLocal , direccion , ciudad ) VALUES (3,'Cale Falsa 789',1);
+--------------------------------------------------------------------------------------
+
+SELECT
+provincia,
+ciudad,
+local,
+emp.nombre,
+ventas_mensuales
+FROM empleado emp
+JOIN local lcal ON emp. local = lcal. idLocal
+JOIN ciudad cdad ON lcal. ciudad = cdad. idCiudad
+JOIN provincia prov ON  cdad. provincia = prov. idProvincia; 
+
+SELECT
+provincia,
+ciudad,
+local,
+emp.nombre,
+ventas_mensuales
+FROM empleado emp
+JOIN local lcal ON emp. local = lcal. idLocal
+JOIN ciudad cdad ON lcal. ciudad = cdad. nombre
+JOIN provincia prov ON  cdad. provincia = prov. nombre;
+
+SELECT 
+nombre,
+ventas_mensuales
+FROM empleado
+GROUP BY ventas_mensuales, nombre;
+
+
+SELECT 
+emp. local,
+lcal. direccion,
+SUM(ventas_mensuales)
+FROM empleado emp
+JOIN local lcal ON emp. local = lcal. idLocal
+GROUP BY direccion, local, ventas_mensuales;
+ 
+SELECT 
+lcal. ciudad ,
+cdad. nombre ,
+emp. ventas_mensuales 
+FROM empleado emp
+JOIN local lcal ON emp. local = lcal. idLocal
+JOIN ciudad cdad ON lcal. ciudad = cdad. idCiudad
+GROUP BY  cdad. nombre, ciudad, ventas_mensuales;  
+
+SELECT 
+emp. local,
+lcal. direccion,
+emp. ventas_mensuales
+FROM empleado emp
+JOIN local lcal ON emp. local = lcal. idLocal
+GROUP BY direccion, local, ventas_mensuales
+HAVING ventas_mensuales >= 300000; 
